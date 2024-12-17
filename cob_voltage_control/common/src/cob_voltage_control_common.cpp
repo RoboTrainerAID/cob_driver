@@ -81,7 +81,7 @@ public:
         //Calculation of real voltage
         //max_voltage = 50V ; max_counts = 999
         //from measurements: 49.1 V => 486 counts
-        double max_counts = 693.0; // 3v => max
+        double max_counts = 1024; // 5v => max
         double voltage = voltage_raw * config.max_voltage_res/max_counts;
         data.out_pub_voltage_.data = voltage;
         ROS_DEBUG("voltage %f", voltage);
@@ -94,8 +94,9 @@ public:
         double count_max = 450;
         double v_min = -3.0;
         double v_max = 1.6;
-        
+
         double current = v_min+(v_max - v_min)*(current_raw-count_min)/(count_max - count_min);
+        if (current_raw == 0)current = 0;
         data.out_pub_current_.data = current;
         ROS_DEBUG("current %f", current);
         
